@@ -8,9 +8,9 @@ import (
 type Form struct{
 	Id    bson.ObjectId 	`json:"id,omitempty" bson:"_id,omitempty"`
 	FullName string        	`json:"fullName" bson:"fullName"`				
-	Email string        	`json:"email" bson:"email"`	
-	Password string        	`json:"password" bson:"password"`
-	Phone string        	`json:"phone" bson:"phone"`
-	Role string        		`json:"role" bson:"role"`
+	Program string        	`json:"program" bson:"program"`	//midwifery or nursing
+	Source []string        	`json:"source" bson:"source"`	// friends relatives peer-group alumnii media wordOfMouth website educationFair collegeStaff socialMedia
+	ProfilePic string       `json:"profilePic" bson:"profilePic"`		//
+	Consent bool        	`json:"consent" bson:"consent"`
 	CreatedAt time.Time		`json:"createAt" bson:"CreatAt"`
 }

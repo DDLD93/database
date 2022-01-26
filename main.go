@@ -28,8 +28,8 @@ func main()  {
 
 	r := mux.NewRouter()
 	
-    r.HandleFunc("/Newform",route.NewForm).Methods("POST")
-    r.HandleFunc("/GetForm",route.GetFormById ).Methods("POST")
+    r.HandleFunc("/form",route.Form).Methods("POST")
+    r.HandleFunc("/GetForm",route.GetFormById ).Methods("GET")
 	r.HandleFunc("/GetForms", route.GetAllForms).Methods("GET") 
 
 

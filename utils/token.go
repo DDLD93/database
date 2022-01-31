@@ -77,4 +77,4 @@ func (maker *PasetoMaker) VerifyToken(token string) (*Payload, error) {
 
     return payload, nil
 }
-var TokenMaker,_ = NewPasetoMaker("rthfrutg7tjgmbh4ryfkg7rhf7rjf74h") // secrete must be 32 bit char
+var TokenMaker,_ = NewPasetoMaker("tfgrfdertygtrfdewsdftgyhujikolpy") // secrete must be 32 bit char

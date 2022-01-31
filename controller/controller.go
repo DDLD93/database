@@ -17,8 +17,8 @@ type DB_Connect struct {
 	Session *mgo.Session
 }
 var (
-	database = "database"
-	collection= "frrms"
+	database = "forms_collection"
+	collection= "forms"
 )
 
 func NewConnCtrl(host string, port int) *DB_Connect {

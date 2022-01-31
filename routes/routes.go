@@ -4,13 +4,14 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 
 	"net/http"
 	"strings"
 
 	"github.com/ddld93/database/controller"
 	"github.com/ddld93/database/model"
-	"github.com/ddld93/database/utils"
+	utilities "github.com/ddld93/database/utils"
 	"github.com/gorilla/mux"
 )
 
@@ -121,6 +122,11 @@ func (ur *FormRoute) GetAllForms(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		w.WriteHeader(http.StatusOK)
+		content, err := ioutil.ReadFile("/images")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(content)
 		json.NewEncoder(w).Encode(forms)
 	
 }
@@ -163,13 +169,15 @@ func (ur *FormRoute) Form(w http.ResponseWriter, r *http.Request) {
 
     // Create a temporary file within our images directory that follows
     // a particular naming pattern
-    tempFile, err := ioutil.TempFile("./images", payload.Username+".png")
+    tempFile, err := ioutil.TempFile("images", payload.Username+"*"+".png")
     if err != nil {
         w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(err)
 		return
 	}
+	name := tempFile.Name()
     defer tempFile.Close()
+	fmt.Println(name)
 
     // read all of the contents of our uploaded file into a
     // byte array
@@ -187,12 +195,11 @@ func (ur *FormRoute) Form(w http.ResponseWriter, r *http.Request) {
 	return
    }
     // return that we have successfully uploaded our file!
-    fmt.Fprintf(w, "Successfully save File\n")
 	form := model.Form{
 		FullName: r.Form.Get("fullName"),
 		Program: r.Form.Get("program"),
 		Source: r.Form.Get("source"),
-		ProfilePic: payload.Username+".png",
+		ProfilePic: name,
 	
 	}
 	resp,err := ur.FormCtrl.NewEntry(&form)

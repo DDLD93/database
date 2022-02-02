@@ -59,6 +59,7 @@ func (sess *DB_Connect) GetForm(id string) (*model.Form, error) {
 func (sess *DB_Connect) GetForms() ([]model.Form, error) {
 	form := []model.Form{}
 	err := sess.Session.DB(database).C(collection).Find(bson.M{}).All(&form)
+	fmt.Println(form)
 	if err != nil {
 		return form, errors.New("error getting forms ")
 	}	

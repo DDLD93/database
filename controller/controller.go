@@ -17,8 +17,8 @@ type DB_Connect struct {
 	Session *mgo.Session
 }
 var (
-	database = "database"
-	collection= "frrms"
+	database = "forms"
+	collection= "forms_collection"
 )
 
 func NewConnCtrl(host string, port int) *DB_Connect {
@@ -49,7 +49,7 @@ func (sess *DB_Connect) NewEntry(form *model.Form) (string, error) {
 
 func (sess *DB_Connect) GetForm(id string) (*model.Form, error) {
 	form := model.Form{}
-	err := sess.Session.DB(database).C(collection).FindId(bson.ObjectIdHex(id))
+	err := sess.Session.DB(database).C(collection).FindId(bson.ObjectIdHex(id)).One(&form)
 	if err != nil {
 		return &form, errors.New("error getting form by id ")
 	}

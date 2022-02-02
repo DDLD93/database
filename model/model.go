@@ -11,5 +11,5 @@ type Form struct{
 	Program string        	`json:"program" bson:"program"`	//midwifery or nursing
 	Source string        	`json:"source" bson:"source"`	// friends relatives peer-group alumnii media wordOfMouth website educationFair collegeStaff socialMedia
 	ProfilePic string       `json:"profilePic" bson:"profilePic"`		
-	CreatedAt time.Time		`json:"createAt" bson:"creatAt"`
+	CreatedAt time.Time	`json:"createAt" bson:"creatAt"`
 }

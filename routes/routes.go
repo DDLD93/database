@@ -10,8 +10,9 @@ import (
 
 	"github.com/ddld93/database/controller"
 	"github.com/ddld93/database/model"
-	"github.com/ddld93/database/utils"
+	utilities "github.com/ddld93/database/utils"
 	"github.com/gorilla/mux"
+
 )
 
 type FormRoute struct {
@@ -90,6 +91,14 @@ func (ur *FormRoute) GetFormById(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusInternalServerError)
 			json.NewEncoder(w).Encode(err)
 		}
+		content, err := ioutil.ReadFile(form.ProfilePic)
+		
+		form.ProfilePic = string(content)
+		if err != nil {
+			fmt.Println(err,"\n")
+		}
+		
+
 		json.NewEncoder(w).Encode(form)
 	
 }
@@ -121,6 +130,7 @@ func (ur *FormRoute) GetAllForms(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		w.WriteHeader(http.StatusOK)
+	
 		json.NewEncoder(w).Encode(forms)
 	
 }
@@ -163,13 +173,19 @@ func (ur *FormRoute) Form(w http.ResponseWriter, r *http.Request) {
 
     // Create a temporary file within our images directory that follows
     // a particular naming pattern
+<<<<<<< HEAD
     tempFile, err := ioutil.TempFile("./images", payload.Username+"*"+".png")
+=======
+    tempFile, err := ioutil.TempFile("images/", payload.Username+"*"+".png")
+>>>>>>> 003e5956c90761989a2de4b2029ae9efe7c460dd
     if err != nil {
         w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(err)
 		return
 	}
+	name := tempFile.Name()
     defer tempFile.Close()
+	fmt.Println(name)
 
     // read all of the contents of our uploaded file into a
     // byte array
@@ -187,12 +203,15 @@ func (ur *FormRoute) Form(w http.ResponseWriter, r *http.Request) {
 	return
    }
     // return that we have successfully uploaded our file!
-    fmt.Fprintf(w, "Successfully save File\n")
 	form := model.Form{
 		FullName: r.Form.Get("fullName"),
 		Program: r.Form.Get("program"),
 		Source: r.Form.Get("source"),
+<<<<<<< HEAD
 		ProfilePic: payload.Username+"*"+".png",
+=======
+		ProfilePic: name,
+>>>>>>> 003e5956c90761989a2de4b2029ae9efe7c460dd
 	
 	}
 	resp,err := ur.FormCtrl.NewEntry(&form)

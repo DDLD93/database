@@ -4,31 +4,31 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
+	//"os"
 
 	"github.com/ddld93/database/controller"
 	"github.com/ddld93/database/routes"
 	"github.com/gorilla/mux"
-	"github.com/joho/godotenv"
+	//"github.com/joho/godotenv"
 )
 
-func init() {
+// func init() {
 
-	err := godotenv.Load(".env")
+// 	err := godotenv.Load(".env")
 
-	if err != nil {
-		log.Fatal("Error loading .env file")
-}
-}
+// 	if err != nil {
+// 		log.Fatal("Error loading .env file")
+// }
+// }
 
 func main()  {
-	port := os.Getenv("PORT")
+	port := "3000"
 	FormCtrl := controller.NewConnCtrl("localhost", 27017)
 	route := routes.FormRoute{FormCtrl: FormCtrl}
 
 	r := mux.NewRouter()
 	
-    r.HandleFunc("/api/forms/newform",route.Form).Methods("POST")
+    r.HandleFunc("/api/forms/newform",route.CreateForm).Methods("POST")
     r.HandleFunc("/api/forms/getform/{id}",route.GetFormById ).Methods("GET")
 	r.HandleFunc("/api/forms/getforms", route.GetAllForms).Methods("GET") 
 

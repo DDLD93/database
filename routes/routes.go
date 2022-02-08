@@ -136,7 +136,7 @@ func (ur *FormRoute) GetAllForms(w http.ResponseWriter, r *http.Request) {
 }
 
 
-func (ur *FormRoute) Form(w http.ResponseWriter, r *http.Request) {
+func (ur *FormRoute) CreateForm(w http.ResponseWriter, r *http.Request) {
 	reqToken := r.Header.Get("Authorization")
 	// checking if request carries a valid token
 	if reqToken == "" {

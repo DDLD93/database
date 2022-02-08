@@ -24,43 +24,43 @@ type CustomResponse struct {
 }
 
 
-func (ur *FormRoute) NewForm(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("Content-Type", "application/json")
-	reqToken := r.Header.Get("Authorization")
-	// checking if request carries a valid token
-	if reqToken == "" {
-		resp := CustomResponse{
-			Message: "Token not Found",
-			Description: "Bearer token not included in request",}
-			json.NewEncoder(w).Encode(resp)
-		return
-	}
-		splitToken := strings.Split(reqToken, "Bearer ")
-		token := splitToken[1]
-		 _,err := utilities.TokenMaker.VerifyToken(token)
-		if err != nil{
-			w.WriteHeader(http.StatusUnauthorized)
-			fmt.Println(err)
-			json.NewEncoder(w).Encode(err)
-			return
-		}
-		fmt.Println("token valid")
-		form := model.Form{}
-		err2 := json.NewDecoder(r.Body).Decode(&form)
-	if err2 != nil {
-		resp := CustomResponse{Message: err.Error(), Description: "Error Decoding request body"}
-		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(resp)
-		return
-	}
+// func (ur *FormRoute) NewForm(w http.ResponseWriter, r *http.Request) {
+// 	w.Header().Add("Content-Type", "application/json")
+// 	reqToken := r.Header.Get("Authorization")
+// 	// checking if request carries a valid token
+// 	if reqToken == "" {
+// 		resp := CustomResponse{
+// 			Message: "Token not Found",
+// 			Description: "Bearer token not included in request",}
+// 			json.NewEncoder(w).Encode(resp)
+// 		return
+// 	}
+// 		splitToken := strings.Split(reqToken, "Bearer ")
+// 		token := splitToken[1]
+// 		 _,err := utilities.TokenMaker.VerifyToken(token)
+// 		if err != nil{
+// 			w.WriteHeader(http.StatusUnauthorized)
+// 			fmt.Println(err)
+// 			json.NewEncoder(w).Encode(err)
+// 			return
+// 		}
+// 		fmt.Println("token valid")
+// 		form := model.Form{}
+// 		err2 := json.NewDecoder(r.Body).Decode(&form)
+// 	if err2 != nil {
+// 		resp := CustomResponse{Message: err.Error(), Description: "Error Decoding request body"}
+// 		w.WriteHeader(http.StatusInternalServerError)
+// 		json.NewEncoder(w).Encode(resp)
+// 		return
+// 	}
 
-		resp,err4 := ur.FormCtrl.NewEntry(&form)
-		if err4 != nil{
-			w.WriteHeader(http.StatusInternalServerError)
-		}
-		json.NewEncoder(w).Encode(resp)
+// 		resp,err4 := ur.FormCtrl.NewEntry(&form)
+// 		if err4 != nil{
+// 			w.WriteHeader(http.StatusInternalServerError)
+// 		}
+// 		json.NewEncoder(w).Encode(resp)
 
-}
+// }
 
 
 func (ur *FormRoute) GetFormById(w http.ResponseWriter, r *http.Request) {
@@ -173,7 +173,11 @@ func (ur *FormRoute) CreateForm(w http.ResponseWriter, r *http.Request) {
 
     // Create a temporary file within our images directory that follows
     // a particular naming pattern
+<<<<<<< HEAD
+    tempFile, err := ioutil.TempFile("./images", payload.Username+"*"+".png")
+=======
     tempFile, err := ioutil.TempFile("images/", payload.Username+"*"+".png")
+>>>>>>> 003e5956c90761989a2de4b2029ae9efe7c460dd
     if err != nil {
         w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(err)
@@ -203,12 +207,15 @@ func (ur *FormRoute) CreateForm(w http.ResponseWriter, r *http.Request) {
 		FullName: r.Form.Get("fullName"),
 		Program: r.Form.Get("program"),
 		Source: r.Form.Get("source"),
+<<<<<<< HEAD
+		ProfilePic: payload.Username+"*"+".png",
+=======
 		ProfilePic: name,
+>>>>>>> 003e5956c90761989a2de4b2029ae9efe7c460dd
 	
 	}
 	resp,err := ur.FormCtrl.NewEntry(&form)
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(err)
 		return
 	}

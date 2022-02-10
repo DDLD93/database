@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"github.com/rs/cors"
 	//"os"
 
 	"github.com/ddld93/database/controller"
@@ -23,7 +24,7 @@ import (
 
 func main()  {
 	port := "3000"
-	FormCtrl := controller.NewConnCtrl("mongo", 27017)
+	FormCtrl := controller.NewConnCtrl("localhost", 27017)
 	route := routes.FormRoute{FormCtrl: FormCtrl}
 
 	r := mux.NewRouter()
@@ -32,12 +33,18 @@ func main()  {
     r.HandleFunc("/api/forms/getform/{id}",route.GetFormById ).Methods("GET")
 	r.HandleFunc("/api/forms/getforms", route.GetAllForms).Methods("GET") 
 
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+		AllowedMethods: []string{"GET", "POST", "DELETE"},
+		AllowedHeaders: []string{"*"},
+		AllowCredentials: true,
+		
+	})
 
-
-    http.Handle("/", r)
-
+	handler := c.Handler(r)
+    
 	fmt.Printf("Server listening on port %v", port)
-	if err := http.ListenAndServe(":"+ port, r); err != nil {
+	if err := http.ListenAndServe(":"+port, handler); err != nil {
 		log.Fatal("Error starting server !! ", err)
 	}
 

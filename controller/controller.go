@@ -44,7 +44,7 @@ func (sess *DB_Connect) NewEntry(form *model.Form) (string, error) {
 		return "", err2
 	}
 	fmt.Println("form inserted successfully!")
-	return "form added successifully", nil
+	return "form submitted successiful", nil
 }
 
 func (sess *DB_Connect) GetForm(id string) (*model.Form, error) {

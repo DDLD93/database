@@ -138,6 +138,7 @@ func (ur *FormRoute) GetAllForms(w http.ResponseWriter, r *http.Request) {
 
 func (ur *FormRoute) CreateForm(w http.ResponseWriter, r *http.Request) {
 	reqToken := r.Header.Get("Authorization")
+	
 	// checking if request carries a valid token
 	if reqToken == "" {
 		resp := CustomResponse{
@@ -154,7 +155,7 @@ func (ur *FormRoute) CreateForm(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
-
+	fmt.Println("hiit")
 
     // Parse our multipart form, 10 << 20 specifies a maximum
     // upload of 10 MB files.
@@ -211,6 +212,9 @@ func (ur *FormRoute) CreateForm(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
-	
-	json.NewEncoder(w).Encode(resp)	
+	response:= CustomResponse{
+		Message: "success",
+		Description: resp,
+	}
+	json.NewEncoder(w).Encode(response)	
 }

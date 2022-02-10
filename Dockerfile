@@ -1,4 +1,4 @@
-FROM ubuntu:18.04  
+FROM alpine 
 WORKDIR /app
 COPY formServer ./
 RUN mkdir images

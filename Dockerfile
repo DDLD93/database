@@ -1,5 +1,5 @@
 FROM ubuntu:18.04  
-WORKDIR /root/
+WORKDIR /app
 COPY formServer ./
 RUN mkdir images
 EXPOSE 3000

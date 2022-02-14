@@ -129,11 +129,7 @@ func (ur *FormRoute) CreateForm(w http.ResponseWriter, r *http.Request) {
 
     // Create a temporary file within our images directory that follows
     // a particular naming pattern
-<<<<<<< HEAD
     tempFile, err := ioutil.TempFile("images", payload.Username+"*"+".png")
-=======
-    tempFile, err := ioutil.TempFile("images/", payload.Username+"*"+".png")
->>>>>>> 7af66719a92bda0f6aa4d27a39e0a1a6596e3a13
     if err != nil {
         w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(err)

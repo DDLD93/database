@@ -8,7 +8,7 @@ import (
 	"github.com/ddld93/database/controller"
 	"github.com/ddld93/database/routes"
 	"github.com/gorilla/mux"
-
+	"github.com/rs/cors"
 )
 
 // func init() {
@@ -30,13 +30,18 @@ func main()  {
     r.HandleFunc("/api/forms/newform",route.Form).Methods("POST")
     r.HandleFunc("/api/forms/getform/{id}",route.GetFormById ).Methods("GET")
 	r.HandleFunc("/api/forms/getforms", route.GetAllForms).Methods("GET") 
-
-
-
-    http.Handle("/", r)
-
+	c := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+		AllowedMethods: []string{"GET", "POST", "DELETE"},
+		AllowedHeaders: []string{"*"},
+		AllowCredentials: true,
+		Debug: false,
+		
+	})
+	handler := c.Handler(r)
+	
 	fmt.Printf("Server listening on port %v", port)
-	if err := http.ListenAndServe(":"+ port, r); err != nil {
+	if err := http.ListenAndServe(":"+ port, handler); err != nil {
 		log.Fatal("Error starting server !! ", err)
 	}
 

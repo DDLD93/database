@@ -91,8 +91,9 @@ func (ur *FormRoute) GetAllForms(w http.ResponseWriter, r *http.Request) {
 }
 
 
-func (ur *FormRoute) Form(w http.ResponseWriter, r *http.Request) {
+func (ur *FormRoute) CreateForm(w http.ResponseWriter, r *http.Request) {
 	reqToken := r.Header.Get("Authorization")
+	
 	// checking if request carries a valid token
 	if reqToken == "" {
 		resp := CustomResponse{
@@ -109,7 +110,7 @@ func (ur *FormRoute) Form(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
-
+	fmt.Println("hiit")
 
     // Parse our multipart form, 10 << 20 specifies a maximum
     // upload of 10 MB files.
@@ -128,7 +129,11 @@ func (ur *FormRoute) Form(w http.ResponseWriter, r *http.Request) {
 
     // Create a temporary file within our images directory that follows
     // a particular naming pattern
+<<<<<<< HEAD
     tempFile, err := ioutil.TempFile("images", payload.Username+"*"+".png")
+=======
+    tempFile, err := ioutil.TempFile("images/", payload.Username+"*"+".png")
+>>>>>>> 7af66719a92bda0f6aa4d27a39e0a1a6596e3a13
     if err != nil {
         w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(err)
@@ -166,6 +171,9 @@ func (ur *FormRoute) Form(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
-	
-	json.NewEncoder(w).Encode(resp)	
+	response:= CustomResponse{
+		Message: "success",
+		Description: resp,
+	}
+	json.NewEncoder(w).Encode(response)	
 }

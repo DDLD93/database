@@ -5,13 +5,12 @@ import (
 	"log"
 	"net/http"
 	"github.com/rs/cors"
-	//"os"
+
 
 	"github.com/ddld93/database/controller"
 	"github.com/ddld93/database/routes"
 	"github.com/gorilla/mux"
-	//"github.com/joho/godotenv"
-)
+	
 
 // func init() {
 

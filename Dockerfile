@@ -1,6 +1,6 @@
-FROM ubuntu 
+FROM ubuntu:jammy
 WORKDIR /app
-COPY formServer ./
+COPY form ./
 RUN mkdir images
 EXPOSE 3000
-CMD ["./forms"]
+CMD ["./form"]

@@ -23,7 +23,7 @@ import (
 
 func main()  {
 	port := "3000"
-	FormCtrl := controller.NewConnCtrl("localhost", 27017)
+	FormCtrl := controller.NewConnCtrl("mongo", 27017)
 	route := routes.FormRoute{FormCtrl: FormCtrl}
 
 	r := mux.NewRouter()

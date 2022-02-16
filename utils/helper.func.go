@@ -2,6 +2,9 @@ package utilities
 
 import (
 	"errors"
+	"log"
+	"net/http"
+
 	"github.com/ddld93/database/model"
 )
 
@@ -25,4 +28,21 @@ func FormModelValidate(user *model.Form)  (*model.Form, error){
 
 	//user.Role = "client"
 	return user, nil
+}
+func FormFlagToggle(email string) error{
+	
+	url := "https://api.paystack.co/transaction/verify/" + email
+
+    // Create a new request using http
+    req, _ := http.NewRequest("GET", url, nil)
+
+    // Send req using http Client
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    if err != nil {
+        log.Println("Error on response.\n[ERROR] -", err)
+		return err
+    }
+    defer resp.Body.Close()
+	return nil
 }

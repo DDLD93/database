@@ -19,8 +19,8 @@ type FormRoute struct {
 	FormCtrl *controller.DB_Connect
 }
 type CustomResponse struct {
-	Message     string `json:"message"`
-	Description string `json:"description"`
+	Status     string `json:"status"`
+	Message string `json:"message"`
 }
 
 
@@ -31,8 +31,8 @@ func (ur *FormRoute) GetFormById(w http.ResponseWriter, r *http.Request) {
 	// checking if request carries a valid token
 	if reqToken == "" {
 		resp := CustomResponse{
-			Message: "Token not Found",
-			Description: "Bearer token not included in request",}
+			Status: "Token not Found",
+			Message: "Bearer token not included in request",}
 			json.NewEncoder(w).Encode(resp)
 		return
 	}
@@ -64,8 +64,8 @@ func (ur *FormRoute) GetAllForms(w http.ResponseWriter, r *http.Request) {
 	// checking if request carries a valid token
 	if reqToken == "" {
 		resp := CustomResponse{
-			Message: "Token not Found",
-			Description: "Bearer token not included in request",}
+			Status: "failed",
+			Message: "Bearer token not included in request",}
 			json.NewEncoder(w).Encode(resp)
 		return
 	}
@@ -97,8 +97,8 @@ func (ur *FormRoute) CreateForm(w http.ResponseWriter, r *http.Request) {
 	// checking if request carries a valid token
 	if reqToken == "" {
 		resp := CustomResponse{
-			Message:     "Token not Found",
-			Description: "Bearer token not included in request"}
+			Status:     "Token not Found",
+			Message: "Bearer token not included in request"}
 		json.NewEncoder(w).Encode(resp)
 		return
 	}
@@ -167,9 +167,16 @@ func (ur *FormRoute) CreateForm(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
+	err = utilities.FormFlagToggle(payload.Username)
+	if err != nil {
+		json.NewEncoder(w).Encode(err)
+		return
+	}
+
+	
 	response:= CustomResponse{
-		Message: "success",
-		Description: resp,
+		Status: "success",
+		Message: resp,
 	}
 	json.NewEncoder(w).Encode(response)	
 }

@@ -2,7 +2,6 @@ package utilities
 
 import (
 	"errors"
-	"log"
 	"net/http"
 
 	"github.com/ddld93/database/model"
@@ -31,7 +30,7 @@ func FormModelValidate(user *model.Form)  (*model.Form, error){
 }
 func FormFlagToggle(email string) error{
 	
-	url := "https://api.paystack.co/transaction/verify/" + email
+	url := "http://localhost:5000//formflag/" + email
 
     // Create a new request using http
     req, _ := http.NewRequest("GET", url, nil)
@@ -40,7 +39,6 @@ func FormFlagToggle(email string) error{
     client := &http.Client{}
     resp, err := client.Do(req)
     if err != nil {
-        log.Println("Error on response.\n[ERROR] -", err)
 		return err
     }
     defer resp.Body.Close()

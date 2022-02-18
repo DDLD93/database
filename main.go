@@ -23,14 +23,14 @@ import (
 
 func main()  {
 	port := "3000"
-	FormCtrl := controller.NewConnCtrl("mongo", 27017)
+	FormCtrl := controller.NewConnCtrl("localhost", 27017)
 	route := routes.FormRoute{FormCtrl: FormCtrl}
 
 	r := mux.NewRouter()
 	
-    r.HandleFunc("/api/forms/newform",route.CreateForm).Methods("POST")
-    r.HandleFunc("/api/forms/getform/{id}",route.GetFormById ).Methods("GET")
-	r.HandleFunc("/api/forms/getforms", route.GetAllForms).Methods("GET") 
+    r.HandleFunc("/newform",route.CreateForm).Methods("POST")
+    r.HandleFunc("/getform/{email}",route.GetFormByEmail).Methods("GET")
+	r.HandleFunc("/getforms", route.GetAllForms).Methods("GET") 
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
 		AllowedMethods: []string{"GET", "POST", "DELETE"},

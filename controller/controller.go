@@ -43,13 +43,12 @@ func (sess *DB_Connect) NewEntry(form *model.Form) (string, error) {
 		fmt.Println("Error inserting new form ", err2)
 		return "", err2
 	}
-	fmt.Println("form inserted successfully!")
-	return "form submitted successiful", nil
+	return "form submitted successfull", nil
 }
 
-func (sess *DB_Connect) GetForm(id string) (*model.Form, error) {
+func (sess *DB_Connect) GetForm(email string) (*model.Form, error) {
 	form := model.Form{}
-	err := sess.Session.DB(database).C(collection).FindId(bson.ObjectIdHex(id)).One(&form)
+	err := sess.Session.DB(database).C(collection).Find(bson.M{"userEmail":email}).One(&form)
 	if err != nil {
 		return &form, errors.New("error getting form by id ")
 	}
@@ -59,7 +58,6 @@ func (sess *DB_Connect) GetForm(id string) (*model.Form, error) {
 func (sess *DB_Connect) GetForms() ([]model.Form, error) {
 	form := []model.Form{}
 	err := sess.Session.DB(database).C(collection).Find(bson.M{}).All(&form)
-	fmt.Println(form)
 	if err != nil {
 		return form, errors.New("error getting forms ")
 	}	

@@ -32,7 +32,7 @@ func (ur *FormRoute) GetFormByEmail(w http.ResponseWriter, r *http.Request) {
 		if err != nil{
 			resp := CustomResponse{
 				Status: "failed",
-				Message: "Error Retrieving form",
+				Message: err.Error(),
 				Error: err,
 				
 			}
@@ -76,6 +76,8 @@ func (ur *FormRoute) GetAllForms(w http.ResponseWriter, r *http.Request) {
 
 
 func (ur *FormRoute) CreateForm(w http.ResponseWriter, r *http.Request) {
+	
+	
     // Parse our multipart form, 10 << 20 specifies a maximum
     // upload of 10 MB files.
     r.ParseMultipartForm(10 << 20)
@@ -86,7 +88,7 @@ func (ur *FormRoute) CreateForm(w http.ResponseWriter, r *http.Request) {
     if err != nil {
 		resp := CustomResponse{
 			Status: "failed",
-			Message: "Error occured processing image",
+			Message: "Error getting images from form",
 			Error: err,
 		}
 		   json.NewEncoder(w).Encode(resp)
@@ -101,7 +103,7 @@ func (ur *FormRoute) CreateForm(w http.ResponseWriter, r *http.Request) {
     if err != nil {
         resp := CustomResponse{
 			Status: "failed",
-			Message: "Error occured processing image",
+			Message: "Error error creating temp image file",
 			Error: err,
 		}
 		   json.NewEncoder(w).Encode(resp)
@@ -116,7 +118,7 @@ func (ur *FormRoute) CreateForm(w http.ResponseWriter, r *http.Request) {
     if err != nil {
         resp := CustomResponse{
 			Status: "failed",
-			Message: "Error occured processing image",
+			Message: "Error processing image bytes",
 			Error: err,
 		}
 		   json.NewEncoder(w).Encode(resp)
@@ -127,7 +129,7 @@ func (ur *FormRoute) CreateForm(w http.ResponseWriter, r *http.Request) {
    if err != nil {
 	resp := CustomResponse{
 		Status: "failed",
-		Message: "Error occured processing image",
+		Message: "Error writing byte image",
 		Error: err,
 	}
 	   json.NewEncoder(w).Encode(resp)
@@ -140,20 +142,20 @@ func (ur *FormRoute) CreateForm(w http.ResponseWriter, r *http.Request) {
 		Program: r.Form.Get("program"),
 		Source: r.Form.Get("source"),
 		ProfilePic: name,
-	
 	}
+	
 	resp,err := ur.FormCtrl.NewEntry(&form)
 	if err != nil {
 		resp := CustomResponse{
 			Status: "failed",
-			Message: "Error occured processing image",
+			Message: "Error adding form data",
 			Error: err,
 		}
 		   json.NewEncoder(w).Encode(resp)
 		return
 	}
-	err = utilities.FormFlagToggle(userEmail)
-	if err != nil {
+	err1 := utilities.FormFlagToggle(userEmail)
+	if err1 != nil {
 		resp := CustomResponse{
 			Status: "failed",
 			Message: "Error updating user state",
@@ -163,10 +165,10 @@ func (ur *FormRoute) CreateForm(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	
 	response:= CustomResponse{
 		Status: "success",
 		Message: resp,
+		Payload: form,
 	}
 	json.NewEncoder(w).Encode(response)	
 }

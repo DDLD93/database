@@ -50,7 +50,7 @@ func (sess *DB_Connect) GetForm(email string) (*model.Form, error) {
 	form := model.Form{}
 	err := sess.Session.DB(database).C(collection).Find(bson.M{"userEmail":email}).One(&form)
 	if err != nil {
-		return &form, errors.New("error getting form by id ")
+		return &form, errors.New("error getting form information from database")
 	}
 	return &form, nil
 }

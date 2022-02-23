@@ -3,6 +3,7 @@ package routes
 import (
 	"encoding/json"
 	"io/ioutil"
+	"time"
 
 	"net/http"
 
@@ -142,6 +143,7 @@ func (ur *FormRoute) CreateForm(w http.ResponseWriter, r *http.Request) {
 		Program: r.Form.Get("program"),
 		Source: r.Form.Get("source"),
 		ProfilePic: name,
+		CreatedAt: time.Now(),
 	}
 	
 	resp,err := ur.FormCtrl.NewEntry(&form)
